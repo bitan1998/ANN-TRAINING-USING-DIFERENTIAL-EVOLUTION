@@ -15,7 +15,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 svr_poly = SVR(kernel='poly', C=1e3, degree=6)
 
 
-from sklearn.preprocessing import StandardScaler ## BEST FOR  CLASSIFICATION TYPE MODEL
+from sklearn.preprocessing import StandardScaler 
 scaler = StandardScaler()  
 scaler.fit(X_train)
 
