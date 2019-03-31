@@ -37,7 +37,8 @@ def ann(array_of_weights, nodes_in_hidden_layer):
 		node[2] = feature_3[j]
 		weight_number = 0
 		for i in range(3, (nodes_in_hidden_layer + 3)):
-			node[i] = (node[0] * array_of_weights[weight_number]) + (node[1] * array_of_weights[weight_number + nodes_in_hidden_layer]) + (node[2] * array_of_weights[weight_number + 2 * nodes_in_hidden_layer])
+			node[i] = (node[0] * array_of_weights[weight_number]) + \
+			(node[1] * array_of_weights[weight_number + nodes_in_hidden_layer]) + (node[2] * array_of_weights[weight_number + 2 * nodes_in_hidden_layer])
 			weight_number+=1
 		for i in range(3, (nodes_in_hidden_layer + 3)):
 			node[nodes_in_hidden_layer + 3] = node[nodes_in_hidden_layer + 3] + (node[i] * array_of_weights[weight_number])
@@ -46,7 +47,7 @@ def ann(array_of_weights, nodes_in_hidden_layer):
 		ann_outputs[j] = 1/(1+np.exp(-ann_outputs[j]))
 	return ann_outputs
 
-def de(bounds, popsize, hidden_nodes, mut=0.8, crossp=0.7, its=5000):
+def de(bounds, popsize, hidden_nodes, mut=0.8, crossp=0.7, its=500):
         dimensions = len(bounds)
         pop = np.random.rand(popsize, dimensions)
         min_b, max_b = np.asarray(bounds).T
@@ -83,7 +84,7 @@ nodes_in_hidden_layer = int(input("Enter the number of nodes in hidden layer : "
 f,b = de(bounds=[(-5,5)] * (3 * nodes_in_hidden_layer + nodes_in_hidden_layer) , popsize=number_of_ann, hidden_nodes=nodes_in_hidden_layer)
 plt.xlabel('ITERATION')
 plt.ylabel('FITNESS')
-plt.title('Evolution of fitness on 5000 iterations')
+plt.title('Evolution of fitness on 500 iterations')
 plt.grid()
 plt.plot(f)
 plt.show()
