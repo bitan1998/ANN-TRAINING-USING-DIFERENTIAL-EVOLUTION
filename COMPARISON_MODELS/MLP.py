@@ -4,8 +4,10 @@ import pandas
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
-xs =pandas.read_csv("data.csv", usecols =["field_soil_temp_c","field_air_temp_c","field_rh"])
-ys = pandas.read_csv("data.csv", usecols =["field_soil_wc"])
+
+
+xs =pandas.read_csv("data.csv", usecols =["field_soil_temp_c","field_air_temp_c","field_rh"],dtype=np.float64)
+ys = pandas.read_csv("data.csv", usecols =["field_soil_wc"],dtype=np.float64).values.ravel()
 
 
 model=sklearn.neural_network.MLPRegressor(
@@ -19,13 +21,14 @@ model=sklearn.neural_network.MLPRegressor(
     tol=1e-6
 )
 
-model.fit(xs,ys)
+x=model.fit(xs,ys)
 print('Accuracy training : {:.3f}'.format(model.score(xs, ys)))
 print('\nprediction:')
 predicted_scale=model.predict(xs)
 print(predicted_scale)
 print("RMSE", mean_squared_error(ys,predicted_scale))
-
+p1=np.polyfit(predicted_scale,ys,1)
+plt.plot(predicted_scale,np.polyval(p1,predicted_scale),'r--')
 plt.xlabel('target')
 plt.ylabel('output')
 #plt.ylim((0,1))

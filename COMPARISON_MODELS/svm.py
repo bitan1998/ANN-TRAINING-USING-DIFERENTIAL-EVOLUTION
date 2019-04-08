@@ -12,7 +12,7 @@ y=dataset1.iloc[:,3].values
 from sklearn.model_selection import train_test_split  
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
-svr_poly = SVR(kernel='poly', C=1e3, degree=6)
+svr_poly = SVR(kernel='poly', C=1e3, degree=2)
 
 
 from sklearn.preprocessing import StandardScaler 
@@ -32,7 +32,8 @@ z=np.std(np.square(np.subtract(y_test,y_poly)))
 
 print("\n||MODEL RMSE||\n")
 print('RMSE_POLY::',z)
-
+p1=np.polyfit(y_poly,y_test,1)
+plt.plot(y_poly,np.polyval(p1,y_poly),'r:')
 plt.xlabel('target')
 plt.ylabel('output')
 #plt.ylim((0,1))

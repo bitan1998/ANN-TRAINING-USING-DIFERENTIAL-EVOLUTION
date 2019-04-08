@@ -88,6 +88,8 @@ plt.grid()
 plt.plot(f)
 plt.show()
 output = ann(b, nodes_in_hidden_layer)
+rmse_output=obj(b,nodes_in_hidden_layer)
+print(rmse_output)
 target = np.zeros((2024))
 i = 0
 with open('data.csv') as csvfile:
@@ -97,6 +99,8 @@ with open('data.csv') as csvfile:
 		i = i + 1
 plt.xlabel('target')
 plt.ylabel('output')
+p1=np.polyfit(output,target,1)
+plt.plot(output,np.polyval(p1,output),'r:')
 plt.scatter(target,output,facecolors="none", edgecolors="b")
 plt.plot(target,target)
 plt.show()

@@ -17,7 +17,7 @@ model.add(Activation('sigmoid'))
 sgd = SGD(lr=0.6, momentum=0.6)
 model.compile(loss= 'mean_squared_error', optimizer=sgd)
 
-model.fit(X,Y,verbose=1,batch_size=4,nb_epoch=1000)
+model.fit(X,Y,verbose=1,batch_size=4,nb_epoch=100)
 print(model.predict_proba(X))
 loss = np.subtract(Y,model.predict_proba(X))
 print('Loss:\n',loss)
