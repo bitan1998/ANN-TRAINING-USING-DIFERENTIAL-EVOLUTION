@@ -2,24 +2,27 @@ import numpy as np
 import csv
 import math
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+
 
 def obj(array_of_weights, nodes_in_hidden_layer):
-	ann_outputs = np.zeros(2024)
+	ann_outputs = np.zeros(3000)
 	ann_outputs = ann(array_of_weights, nodes_in_hidden_layer)
-	expected_output = np.zeros((2024))
+	expected_output = np.zeros((3000))
 	i = 0
 	with open('data.csv') as csvfile:
 		reader = csv.DictReader(csvfile)
 		for row in reader:
 			expected_output[i] = float(row['field_soil_wc']) 
 			i = i + 1
-	for i in range(0, 2024):
-		ann_outputs[i]=(expected_output[i]-ann_outputs[i])*(expected_output[i]-ann_outputs[i]);
-	rmse=math.sqrt(np.sum(ann_outputs)/2024)
+	for i in range(0, 3000):
+		ann_outputs[i]=(expected_output[i]-ann_outputs[i])*(expected_output[i]-ann_outputs[i])
+		# rmse=math.sqrt(np.sum(ann_outputs)/3000)
+		rmse=np.sqrt(mean_squared_error(expected_output,ann_outputs))
 	return rmse
 
 def ann(array_of_weights, nodes_in_hidden_layer):
-	feature_1 = feature_2 = feature_3 = expected_output = np.zeros((2024))
+	feature_1 = feature_2 = feature_3 = expected_output = np.zeros((3000))
 	i = 0
 	with open('data.csv') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -29,8 +32,8 @@ def ann(array_of_weights, nodes_in_hidden_layer):
 			feature_3[i] = float(row['field_rh'])
 			expected_output[i] = float(row['field_soil_wc']) 
 			i = i + 1
-	ann_outputs = np.zeros(2024)
-	for j in range(0, 2024):	
+	ann_outputs = np.zeros(3000)
+	for j in range(0, 3000):	
 		node = np.zeros(nodes_in_hidden_layer + 4)
 		node[0] = feature_1[j]
 		node[1] = feature_2[j]
@@ -90,7 +93,7 @@ plt.show()
 output = ann(b, nodes_in_hidden_layer)
 rmse_output=obj(b,nodes_in_hidden_layer)
 print(rmse_output)
-target = np.zeros((2024))
+target = np.zeros((3000))
 i = 0
 with open('data.csv') as csvfile:
 	reader = csv.DictReader(csvfile)
@@ -99,8 +102,8 @@ with open('data.csv') as csvfile:
 		i = i + 1
 plt.xlabel('target')
 plt.ylabel('output')
-p1=np.polyfit(output,target,1)
+p1=np.polyfit(target,output,1)
 plt.plot(output,np.polyval(p1,output),'r:')
-plt.scatter(target,output,facecolors="none", edgecolors="b")
+plt.scatter(output,target,facecolors="none", edgecolors="b")
 plt.plot(target,target)
 plt.show()
